@@ -1,9 +1,7 @@
 package com.umka.carbon.controllers;
 
-import com.umka.carbon.model.CarbonFootprint;
 import com.umka.carbon.model.dto.CarbonFootprintDto;
 import com.umka.carbon.model.dto.QuestionnaireDto;
-import com.umka.carbon.repositories.CarbonFootprintRepository;
 import com.umka.carbon.service.CarbonCalcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
