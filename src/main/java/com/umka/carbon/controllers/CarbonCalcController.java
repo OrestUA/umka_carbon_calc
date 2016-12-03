@@ -2,8 +2,6 @@ package com.umka.carbon.controllers;
 
 import com.umka.carbon.model.CarbonFootprint;
 import com.umka.carbon.repositories.CarbonFootprintRepository;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

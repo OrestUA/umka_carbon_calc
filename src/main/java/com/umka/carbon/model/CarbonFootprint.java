@@ -1,7 +1,5 @@
 package com.umka.carbon.model;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class CarbonFootprint {
     private Integer gasPerYear;
     private Integer hotWaterPerYear;
     private Boolean airTravel;
-    private List<String> countriesTravel;
+//    private List<String> countriesTravel;
 
 //    private CarQuestionnaire carQuestionnaire;
 
@@ -105,11 +103,11 @@ public class CarbonFootprint {
         this.airTravel = airTravel;
     }
 
-    public List<String> getCountriesTravel() {
-        return countriesTravel;
-    }
-
-    public void setCountriesTravel(List<String> countriesTravel) {
-        this.countriesTravel = countriesTravel;
-    }
+//    public List<String> getCountriesTravel() {
+//        return countriesTravel;
+//    }
+//
+//    public void setCountriesTravel(List<String> countriesTravel) {
+//        this.countriesTravel = countriesTravel;
+//    }
 }
