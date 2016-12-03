@@ -1,4 +1,4 @@
-package com.umka.carbon.model;
+package com.umka.carbon.enums;
 
 /**
  * Created by ARudyk on 12/3/2016.

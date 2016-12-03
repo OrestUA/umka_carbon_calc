@@ -1,7 +1,13 @@
 package com.umka.carbon.model;
 
+import com.umka.carbon.config.LocalDateTimeAttributeConverter;
+import com.umka.carbon.enums.Salary;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static javax.persistence.CascadeType.*;
 
 /**
  * Created by ARudyk on 12/3/2016.
@@ -14,19 +20,31 @@ public class CarbonFootprint {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
-    //    private Gender gender;
-    private Integer age;
+    @ManyToOne
+    private Person person;
+
+    @OneToOne (cascade={PERSIST, MERGE, REMOVE, REFRESH, DETACH})
+    private Car car;
 
     private Integer roomsInFlat;
-    private Integer roommates;
-    private Integer electricityPerYear;
-    private Integer gasPerYear;
-    private Integer hotWaterPerYear;
-    private Boolean airTravel;
-//    private List<String> countriesTravel;
 
-//    private CarQuestionnaire carQuestionnaire;
+    private Integer roommates;
+
+    private Integer electricityPerYear;
+
+    private Integer gasPerYear;
+
+    private Integer hotWaterPerYear;
+
+    private Boolean airTravel;
+
+    private Salary salary;
+
+    private String countriesTraveled;
+
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    @Column(updatable = false)
+    private LocalDateTime dateCreated;
 
     public CarbonFootprint() {
     }
@@ -39,20 +57,12 @@ public class CarbonFootprint {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public Integer getRoomsInFlat() {
@@ -103,11 +113,40 @@ public class CarbonFootprint {
         this.airTravel = airTravel;
     }
 
-//    public List<String> getCountriesTravel() {
-//        return countriesTravel;
-//    }
-//
-//    public void setCountriesTravel(List<String> countriesTravel) {
-//        this.countriesTravel = countriesTravel;
-//    }
+    public Salary getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Salary salary) {
+        this.salary = salary;
+    }
+
+    public String getCountriesTraveled() {
+        return countriesTraveled;
+    }
+
+    public void setCountriesTraveled(String countriesTraveled) {
+        this.countriesTraveled = countriesTraveled;
+    }
+
+    public Car getCar() {
+        return car;
+    }
+
+    public void setCar(Car car) {
+        this.car = car;
+    }
+
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        dateCreated = LocalDateTime.now();
+    }
 }
