@@ -3,14 +3,15 @@ package com.umka.carbon.controllers;
 import com.umka.carbon.model.Car;
 import com.umka.carbon.model.CarbonFootprint;
 import com.umka.carbon.model.Person;
-import com.umka.carbon.model.dto.CarbonFootprintDto;
+import com.umka.carbon.model.dto.CarbonFootprintStatisticsDto;
 import com.umka.carbon.model.dto.QuestionnaireDto;
-import com.umka.carbon.repositories.CarbonFootprintRepository;
 import com.umka.carbon.repositories.PersonRepository;
 import com.umka.carbon.service.CarbonCalcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by ARudyk on 12/3/2016.
@@ -55,9 +56,15 @@ public class CarbonCalcController {
     }
 
     // Calculate carbon footprint
-    @RequestMapping(value="/carboncalc", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CarbonFootprintDto saveCarbonFootprint(@RequestBody QuestionnaireDto dto) {
+//    @RequestMapping(value="/carboncalc", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public CarbonFootprintDto saveCarbonFootprint(@RequestBody QuestionnaireDto dto) {
+//
+//        return service.calculateCarbonFootprint(dto);
+//    }
 
-        return service.calculateCarbonFootprint(dto);
+    @RequestMapping(value = "/carboncalc", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CarbonFootprintStatisticsDto> saveCarbonFootprint(@RequestBody QuestionnaireDto dto) {
+
+        return service.calculateCarbonFootprintStatistics(dto);
     }
 }
