@@ -1,7 +1,6 @@
 package com.umka.carbon.model;
 
 import com.umka.carbon.enums.Gender;
-import com.umka.carbon.enums.Salary;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class Person {
 
     private Integer age;
 
+    @Column(unique=true)
     private String email;
 
     private Boolean subscribed;

@@ -1,7 +1,6 @@
 package com.umka.carbon.controllers;
 
 import com.umka.carbon.model.dto.CarbonFootprintStatisticsBundle;
-import com.umka.carbon.model.dto.CarbonFootprintStatisticsDto;
 import com.umka.carbon.model.dto.QuestionnaireDto;
 import com.umka.carbon.service.CarbonCalcService;
 import com.umka.carbon.service.SaveService;
@@ -9,12 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * Created by ARudyk on 12/3/2016.
  */
 @RestController
+@CrossOrigin(maxAge = 3600)
 public class CarbonCalcController {
 
     @Autowired

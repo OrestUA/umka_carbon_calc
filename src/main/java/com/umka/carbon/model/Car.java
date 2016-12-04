@@ -1,6 +1,9 @@
 package com.umka.carbon.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by ARudyk on 12/3/2016.

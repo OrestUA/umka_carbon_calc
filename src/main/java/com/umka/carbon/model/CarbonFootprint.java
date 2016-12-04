@@ -1,11 +1,9 @@
 package com.umka.carbon.model;
 
 import com.umka.carbon.config.LocalDateTimeAttributeConverter;
-import com.umka.carbon.enums.Salary;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static javax.persistence.CascadeType.*;
 

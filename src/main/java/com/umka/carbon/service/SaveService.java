@@ -32,7 +32,11 @@ public class SaveService {
     private QuestionnaireToPersonMapper personMapper;
 
     public void saveCarbonFootprintInfo (QuestionnaireDto dto){
-        Person person = personMapper.getPerson(dto);
+//        Person person = personMapper.getPerson(dto);
+        Person person = personRepository.findByEmail(dto.getEmail());
+        if (person == null){
+            person = personMapper.getPerson(dto);
+        }
         CarbonFootprint footprint = footprintMapper.getCarbonFootprint(dto);
         if (dto.getCarEngineVolume() != null && dto.getCarEngineVolume() != 0) {
             Car car = carMapper.getCar(dto);

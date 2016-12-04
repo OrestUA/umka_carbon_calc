@@ -6,7 +6,10 @@ import com.umka.carbon.model.dto.CarbonFootprintStatisticsDto;
 import com.umka.carbon.model.dto.QuestionnaireDto;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by ARudyk on 12/3/2016.
@@ -14,18 +17,18 @@ import java.util.*;
 @Service
 public class CarbonCalcService {
 
-    private static final int EF_CO2_ELECTRICITY = 816;
-    private static final int EF_CO2_GAS = 1953;
-    private static final int EF_CO2_HOT_WATER = 1035;
-    private static final int EF_CO2_CAR = 216;
+    private static final double EF_CO2_ELECTRICITY = 0.00816;
+    private static final double EF_CO2_GAS = 0.01953;
+    private static final double EF_CO2_HOT_WATER = 0.01035;
+    private static final double EF_CO2_CAR = 0.00216;
     private static final int MONTHS_IN_YEAR = 12;
 
     private static final String YOU = "Ти";
     private static final String UKRAINE = "Україна";
     private static final String WORLD = "Світ";
 
-    private static final int UKRAINE_EMISSION = 5500;
-    private static final int WORLD_EMISSION = 5000;
+    private static final double UKRAINE_EMISSION = 5.5;
+    private static final double WORLD_EMISSION = 5;
 
     public CarbonFootprintDto calculateCarbonFootprint(QuestionnaireDto dto) {
         CarbonFootprintDto resultDto = new CarbonFootprintDto();
@@ -39,11 +42,11 @@ public class CarbonCalcService {
     private List<CarbonFootprintStatisticsDto> calculateCarbonFootprintStatistics(QuestionnaireDto dto) {
         List<CarbonFootprintStatisticsDto> results = new ArrayList<>();
 
-        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY;
-        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS;
+        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY / dto.getRoommates();
+        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS / dto.getRoommates();
         double carEmission = dto.getCarEngineVolume() != null ?
                 dto.getCarEngineVolume() * dto.getCarDistance() * EF_CO2_CAR : 0;
-        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER;
+        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER / dto.getRoommates();
         double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
         results.add(new CarbonFootprintStatisticsDto(YOU, yourTotal));
         results.add(new CarbonFootprintStatisticsDto(UKRAINE, UKRAINE_EMISSION));
@@ -55,11 +58,11 @@ public class CarbonCalcService {
     private List<CarbonFootprintStatisticsDto> calculateYourCarbonStatistics(QuestionnaireDto dto) {
         List<CarbonFootprintStatisticsDto> results = new ArrayList<>();
 
-        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY;
-        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS;
+        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY / dto.getRoommates();
+        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS / dto.getRoommates();
         double carEmission = dto.getCarEngineVolume() != null ?
                 dto.getCarEngineVolume() * dto.getCarDistance() * EF_CO2_CAR : 0;
-        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER;
+        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER / dto.getRoommates();
         double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
 
         results.add(new CarbonFootprintStatisticsDto("Світло", electricityEmission / yourTotal));
