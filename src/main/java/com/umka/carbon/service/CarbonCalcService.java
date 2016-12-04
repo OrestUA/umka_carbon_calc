@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class CarbonCalcService {
 
-    private static final double EF_CO2_ELECTRICITY = 0.816;
+    private static final double EF_CO2_ELECTRICITY = 0.537;
     private static final double EF_CO2_GAS = 1.953;
     private static final double EF_CO2_HOT_WATER = 1.035;
     private static final double EF_CO2_CAR = 0.216;
