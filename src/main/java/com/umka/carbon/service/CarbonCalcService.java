@@ -17,18 +17,18 @@ import java.util.List;
 @Service
 public class CarbonCalcService {
 
-    private static final double EF_CO2_ELECTRICITY = 0.00816;
-    private static final double EF_CO2_GAS = 0.01953;
-    private static final double EF_CO2_HOT_WATER = 0.01035;
-    private static final double EF_CO2_CAR = 0.00216;
+    private static final double EF_CO2_ELECTRICITY = 0.816;
+    private static final double EF_CO2_GAS = 1.953;
+    private static final double EF_CO2_HOT_WATER = 1.035;
+    private static final double EF_CO2_CAR = 0.216;
     private static final int MONTHS_IN_YEAR = 12;
 
     private static final String YOU = "Ти";
     private static final String UKRAINE = "Україна";
     private static final String WORLD = "Світ";
 
-    private static final double UKRAINE_EMISSION = 5.5;
-    private static final double WORLD_EMISSION = 5;
+    private static final double UKRAINE_EMISSION = 5500;
+    private static final double WORLD_EMISSION = 5000;
 
     public CarbonFootprintDto calculateCarbonFootprint(QuestionnaireDto dto) {
         CarbonFootprintDto resultDto = new CarbonFootprintDto();
@@ -47,8 +47,9 @@ public class CarbonCalcService {
         double carEmission = dto.getCarEngineVolume() != null ?
                 dto.getCarEngineVolume() * dto.getCarDistance() * EF_CO2_CAR : 0;
         double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER / dto.getRoommates();
-        double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
-        results.add(new CarbonFootprintStatisticsDto(YOU, yourTotal));
+        Double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
+
+        results.add(new CarbonFootprintStatisticsDto(YOU, yourTotal.intValue()));
         results.add(new CarbonFootprintStatisticsDto(UKRAINE, UKRAINE_EMISSION));
         results.add(new CarbonFootprintStatisticsDto(WORLD, WORLD_EMISSION));
 
