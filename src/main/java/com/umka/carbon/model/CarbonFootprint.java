@@ -30,15 +30,15 @@ public class CarbonFootprint {
 
     private Integer roommates;
 
-    private Integer electricityPerYear;
+    private Double electricityPerYear;
 
-    private Integer gasPerYear;
+    private Double gasPerYear;
 
-    private Integer hotWaterPerYear;
+    private Double hotWaterPerYear;
 
     private Boolean airTravel;
 
-    private Salary salary;
+    private String salary;
 
     private String countriesTraveled;
 
@@ -81,44 +81,12 @@ public class CarbonFootprint {
         this.roommates = roommates;
     }
 
-    public Integer getElectricityPerYear() {
-        return electricityPerYear;
-    }
-
-    public void setElectricityPerYear(Integer electricityPerYear) {
-        this.electricityPerYear = electricityPerYear;
-    }
-
-    public Integer getGasPerYear() {
-        return gasPerYear;
-    }
-
-    public void setGasPerYear(Integer gasPerYear) {
-        this.gasPerYear = gasPerYear;
-    }
-
-    public Integer getHotWaterPerYear() {
-        return hotWaterPerYear;
-    }
-
-    public void setHotWaterPerYear(Integer hotWaterPerYear) {
-        this.hotWaterPerYear = hotWaterPerYear;
-    }
-
     public Boolean getAirTravel() {
         return airTravel;
     }
 
     public void setAirTravel(Boolean airTravel) {
         this.airTravel = airTravel;
-    }
-
-    public Salary getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Salary salary) {
-        this.salary = salary;
     }
 
     public String getCountriesTraveled() {
@@ -143,6 +111,38 @@ public class CarbonFootprint {
 
     public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public Double getElectricityPerYear() {
+        return electricityPerYear;
+    }
+
+    public void setElectricityPerYear(Double electricityPerYear) {
+        this.electricityPerYear = electricityPerYear;
+    }
+
+    public Double getGasPerYear() {
+        return gasPerYear;
+    }
+
+    public void setGasPerYear(Double gasPerYear) {
+        this.gasPerYear = gasPerYear;
+    }
+
+    public Double getHotWaterPerYear() {
+        return hotWaterPerYear;
+    }
+
+    public void setHotWaterPerYear(Double hotWaterPerYear) {
+        this.hotWaterPerYear = hotWaterPerYear;
+    }
+
+    public String getSalary() {
+        return salary;
+    }
+
+    public void setSalary(String salary) {
+        this.salary = salary;
     }
 
     @PrePersist

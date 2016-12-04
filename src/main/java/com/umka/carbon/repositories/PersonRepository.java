@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
  * Created by YSkakun on 12/3/2016.
  */
 public interface PersonRepository extends CrudRepository<Person, Long> {
+    Person findByEmail(String email);
 }

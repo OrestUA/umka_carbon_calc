@@ -3,8 +3,6 @@ package com.umka.carbon.service;
 import com.umka.carbon.model.dto.CarbonFootprintDto;
 import com.umka.carbon.model.dto.CarbonFootprintStatisticsDto;
 import com.umka.carbon.model.dto.QuestionnaireDto;
-import com.umka.carbon.repositories.CarbonFootprintRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,10 +18,14 @@ public class CarbonCalcService {
     private static final int EF_CO2_GAS = 1953;
     private static final int EF_CO2_HOT_WATER = 1035;
     private static final int EF_CO2_CAR = 216;
+    private static final int MONTHS_IN_YEAR = 12;
 
+    private static final String YOU = "Ти";
+    private static final String UKRAINE = "Україна";
+    private static final String WORLD = "Світ";
 
-    @Autowired
-    private CarbonFootprintRepository carbonFootprintRepository;
+    private static final int UKRAINE_EMISSION = 5500;
+    private static final int WORLD_EMISSION = 5000;
 
     public CarbonFootprintDto calculateCarbonFootprint(QuestionnaireDto dto){
         CarbonFootprintDto resultDto = new CarbonFootprintDto();
@@ -37,14 +39,15 @@ public class CarbonCalcService {
     public List<CarbonFootprintStatisticsDto> calculateCarbonFootprintStatistics(QuestionnaireDto dto){
         List<CarbonFootprintStatisticsDto> results = new ArrayList<>();
 
-        double electricityEmission = dto.getElectricity() * EF_CO2_ELECTRICITY;
-        double gasEmission = dto.getGas() * EF_CO2_GAS;
-        double carEmission = dto.getCarEngineVolume() * EF_CO2_CAR;
-        double hotWaterEmission = dto.getHotWater() * EF_CO2_HOT_WATER;
+        double electricityEmission = dto.getElectricity()* MONTHS_IN_YEAR * EF_CO2_ELECTRICITY;
+        double gasEmission = dto.getGas()* MONTHS_IN_YEAR * EF_CO2_GAS;
+        double carEmission = dto.getCarEngineVolume() != null ?
+                dto.getCarEngineVolume()* dto.getCarDistance() * EF_CO2_CAR : 0;
+        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER;
         double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
-        results.add(new CarbonFootprintStatisticsDto ("Ти", yourTotal) );;
-        results.add(new CarbonFootprintStatisticsDto ("Україна", 5500));
-        results.add(new CarbonFootprintStatisticsDto ("Світ", 5000));
+        results.add(new CarbonFootprintStatisticsDto (YOU, yourTotal) );;
+        results.add(new CarbonFootprintStatisticsDto (UKRAINE, UKRAINE_EMISSION));
+        results.add(new CarbonFootprintStatisticsDto (WORLD, WORLD_EMISSION));
 
         return results;
     }
