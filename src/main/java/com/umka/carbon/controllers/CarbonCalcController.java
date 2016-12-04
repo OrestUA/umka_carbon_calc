@@ -55,7 +55,7 @@ public class CarbonCalcController {
     }
 
     // Calculate carbon footprint
-    @RequestMapping(value="/carboncalc", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value="/carboncalc", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CarbonFootprintDto saveCarbonFootprint(@RequestBody QuestionnaireDto dto) {
 
         return service.calculateCarbonFootprint(dto);
