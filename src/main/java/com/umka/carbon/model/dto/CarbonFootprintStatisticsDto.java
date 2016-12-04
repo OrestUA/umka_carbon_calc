@@ -6,7 +6,7 @@ package com.umka.carbon.model.dto;
 public class CarbonFootprintStatisticsDto {
 
     private String name;
-    private double amount;
+    private Double amount;
 
     public CarbonFootprintStatisticsDto() {
     }
@@ -24,11 +24,27 @@ public class CarbonFootprintStatisticsDto {
         this.name = name;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CarbonFootprintStatisticsDto that = (CarbonFootprintStatisticsDto) o;
+
+        return Double.compare(that.amount, amount) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(amount);
+        return (int) (temp ^ (temp >>> 32));
     }
 }

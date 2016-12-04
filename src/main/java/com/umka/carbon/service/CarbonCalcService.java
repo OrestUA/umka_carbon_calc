@@ -1,12 +1,12 @@
 package com.umka.carbon.service;
 
 import com.umka.carbon.model.dto.CarbonFootprintDto;
+import com.umka.carbon.model.dto.CarbonFootprintStatisticsBundle;
 import com.umka.carbon.model.dto.CarbonFootprintStatisticsDto;
 import com.umka.carbon.model.dto.QuestionnaireDto;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by ARudyk on 12/3/2016.
@@ -27,7 +27,7 @@ public class CarbonCalcService {
     private static final int UKRAINE_EMISSION = 5500;
     private static final int WORLD_EMISSION = 5000;
 
-    public CarbonFootprintDto calculateCarbonFootprint(QuestionnaireDto dto){
+    public CarbonFootprintDto calculateCarbonFootprint(QuestionnaireDto dto) {
         CarbonFootprintDto resultDto = new CarbonFootprintDto();
         resultDto.setElectricity(dto.getElectricity() * EF_CO2_ELECTRICITY);
         resultDto.setGas(dto.getGas() * EF_CO2_GAS);
@@ -36,19 +36,46 @@ public class CarbonCalcService {
         return resultDto;
     }
 
-    public List<CarbonFootprintStatisticsDto> calculateCarbonFootprintStatistics(QuestionnaireDto dto){
+    private List<CarbonFootprintStatisticsDto> calculateCarbonFootprintStatistics(QuestionnaireDto dto) {
         List<CarbonFootprintStatisticsDto> results = new ArrayList<>();
 
-        double electricityEmission = dto.getElectricity()* MONTHS_IN_YEAR * EF_CO2_ELECTRICITY;
-        double gasEmission = dto.getGas()* MONTHS_IN_YEAR * EF_CO2_GAS;
+        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY;
+        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS;
         double carEmission = dto.getCarEngineVolume() != null ?
-                dto.getCarEngineVolume()* dto.getCarDistance() * EF_CO2_CAR : 0;
+                dto.getCarEngineVolume() * dto.getCarDistance() * EF_CO2_CAR : 0;
         double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER;
         double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
-        results.add(new CarbonFootprintStatisticsDto (YOU, yourTotal) );;
-        results.add(new CarbonFootprintStatisticsDto (UKRAINE, UKRAINE_EMISSION));
-        results.add(new CarbonFootprintStatisticsDto (WORLD, WORLD_EMISSION));
+        results.add(new CarbonFootprintStatisticsDto(YOU, yourTotal));
+        results.add(new CarbonFootprintStatisticsDto(UKRAINE, UKRAINE_EMISSION));
+        results.add(new CarbonFootprintStatisticsDto(WORLD, WORLD_EMISSION));
 
         return results;
+    }
+
+    private List<CarbonFootprintStatisticsDto> calculateYourCarbonStatistics(QuestionnaireDto dto) {
+        List<CarbonFootprintStatisticsDto> results = new ArrayList<>();
+
+        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY;
+        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS;
+        double carEmission = dto.getCarEngineVolume() != null ?
+                dto.getCarEngineVolume() * dto.getCarDistance() * EF_CO2_CAR : 0;
+        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER;
+        double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
+
+        results.add(new CarbonFootprintStatisticsDto("Світло", electricityEmission / yourTotal));
+        ;
+        results.add(new CarbonFootprintStatisticsDto("Газ", gasEmission / yourTotal));
+        results.add(new CarbonFootprintStatisticsDto("Вода", hotWaterEmission / yourTotal));
+        results.add(new CarbonFootprintStatisticsDto("Авто", carEmission / yourTotal));
+
+        Collections.sort(results, Comparator.comparing(CarbonFootprintStatisticsDto::getAmount));
+        return results;
+    }
+
+    public CarbonFootprintStatisticsBundle getStatistics(QuestionnaireDto dto) {
+        CarbonFootprintStatisticsBundle bundle = new CarbonFootprintStatisticsBundle();
+        bundle.setBarChart(calculateCarbonFootprintStatistics(dto));
+        bundle.setPieChart(calculateYourCarbonStatistics(dto));
+        return bundle;
     }
 }
