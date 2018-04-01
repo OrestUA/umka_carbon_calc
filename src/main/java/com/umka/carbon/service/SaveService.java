@@ -26,13 +26,14 @@ public class SaveService {
 
     @Autowired
     private QuestionnaireToCarbonFootprintMapper footprintMapper;
+
     @Autowired
     private QuestionnaireToCarMapper carMapper;
+
     @Autowired
     private QuestionnaireToPersonMapper personMapper;
 
     public void saveCarbonFootprintInfo (QuestionnaireDto dto){
-//        Person person = personMapper.getPerson(dto);
         Person person = personRepository.findByEmail(dto.getEmail());
         if (person == null){
             person = personMapper.getPerson(dto);

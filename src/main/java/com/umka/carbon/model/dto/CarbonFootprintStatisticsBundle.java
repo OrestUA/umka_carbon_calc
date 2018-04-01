@@ -8,6 +8,7 @@ import java.util.List;
 public class CarbonFootprintStatisticsBundle {
     private List<CarbonFootprintStatisticsDto> barChart;
     private List<CarbonFootprintStatisticsDto> pieChart;
+    private QuestionnaireDto userInput;
 
     public CarbonFootprintStatisticsBundle() {
     }
@@ -26,5 +27,13 @@ public class CarbonFootprintStatisticsBundle {
 
     public void setPieChart(List<CarbonFootprintStatisticsDto> pieChart) {
         this.pieChart = pieChart;
+    }
+
+    public QuestionnaireDto getUserInput() {
+        return userInput;
+    }
+
+    public void setUserInput(QuestionnaireDto userInput) {
+        this.userInput = userInput;
     }
 }

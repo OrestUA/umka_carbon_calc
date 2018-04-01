@@ -20,14 +20,21 @@ public class CarbonCalcController {
     @Autowired
     private SaveService saveService;
 
-    @RequestMapping(value = "/carbon_footprint", method = RequestMethod.GET)
+    @GetMapping(value = "/carbon_footprint")
     public String index() {
         return "Greetings from Umka Carbon Calculator!";
     }
 
-    @RequestMapping(value = "/carbon_footprint", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/save/carbon_footprint", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public CarbonFootprintStatisticsBundle saveCarbonFootprint(@RequestBody QuestionnaireDto dto) {
         saveService.saveCarbonFootprintInfo(dto);
+        return calcService.getStatistics(dto);
+    }
+
+    @PostMapping(value = "/calculate/carbon_footprint", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public CarbonFootprintStatisticsBundle calculateCarbonFootprint(@RequestBody QuestionnaireDto dto) {
         return calcService.getStatistics(dto);
     }
 }

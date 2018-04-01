@@ -29,6 +29,10 @@ public class CarbonCalcService {
 
     private static final double UKRAINE_EMISSION = 5500;
     private static final double WORLD_EMISSION = 5000;
+    public static final String ELECTRICITY = "Світло";
+    public static final String GAS = "Газ";
+    public static final String WATER = "Вода";
+    public static final String CAR = "Авто";
 
     public CarbonFootprintDto calculateCarbonFootprint(QuestionnaireDto dto) {
         CarbonFootprintDto resultDto = new CarbonFootprintDto();
@@ -42,11 +46,11 @@ public class CarbonCalcService {
     private List<CarbonFootprintStatisticsDto> calculateCarbonFootprintStatistics(QuestionnaireDto dto) {
         List<CarbonFootprintStatisticsDto> results = new ArrayList<>();
 
-        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY / dto.getRoommates();
-        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS / dto.getRoommates();
-        double carEmission = dto.getCarEngineVolume() != null ?
+        final double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY / dto.getRoommates();
+        final double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS / dto.getRoommates();
+        final double carEmission = dto.getCarEngineVolume() != null ?
                 dto.getCarEngineVolume() * dto.getCarDistance() * EF_CO2_CAR : 0;
-        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER / dto.getRoommates();
+        final double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER / dto.getRoommates();
         Double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
 
         results.add(new CarbonFootprintStatisticsDto(YOU, yourTotal.intValue()));
@@ -59,18 +63,17 @@ public class CarbonCalcService {
     private List<CarbonFootprintStatisticsDto> calculateYourCarbonStatistics(QuestionnaireDto dto) {
         List<CarbonFootprintStatisticsDto> results = new ArrayList<>();
 
-        double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY / dto.getRoommates();
-        double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS / dto.getRoommates();
-        double carEmission = dto.getCarEngineVolume() != null ?
+        final double electricityEmission = dto.getElectricity() * MONTHS_IN_YEAR * EF_CO2_ELECTRICITY / dto.getRoommates();
+        final double gasEmission = dto.getGas() * MONTHS_IN_YEAR * EF_CO2_GAS / dto.getRoommates();
+        final double carEmission = dto.getCarEngineVolume() != null ?
                 dto.getCarEngineVolume() * dto.getCarDistance() * EF_CO2_CAR : 0;
-        double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER / dto.getRoommates();
-        double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
+        final double hotWaterEmission = dto.getHotWater() * MONTHS_IN_YEAR * EF_CO2_HOT_WATER / dto.getRoommates();
+        final double yourTotal = electricityEmission + carEmission + gasEmission + hotWaterEmission;
 
-        results.add(new CarbonFootprintStatisticsDto("Світло", electricityEmission / yourTotal));
-        ;
-        results.add(new CarbonFootprintStatisticsDto("Газ", gasEmission / yourTotal));
-        results.add(new CarbonFootprintStatisticsDto("Вода", hotWaterEmission / yourTotal));
-        results.add(new CarbonFootprintStatisticsDto("Авто", carEmission / yourTotal));
+        results.add(new CarbonFootprintStatisticsDto(ELECTRICITY, electricityEmission / yourTotal));
+        results.add(new CarbonFootprintStatisticsDto(GAS, gasEmission / yourTotal));
+        results.add(new CarbonFootprintStatisticsDto(WATER, hotWaterEmission / yourTotal));
+        results.add(new CarbonFootprintStatisticsDto(CAR, carEmission / yourTotal));
 
         Collections.sort(results, Comparator.comparing(CarbonFootprintStatisticsDto::getAmount));
         return results;
@@ -80,6 +83,7 @@ public class CarbonCalcService {
         CarbonFootprintStatisticsBundle bundle = new CarbonFootprintStatisticsBundle();
         bundle.setBarChart(calculateCarbonFootprintStatistics(dto));
         bundle.setPieChart(calculateYourCarbonStatistics(dto));
+        bundle.setUserInput(dto);
         return bundle;
     }
 }
